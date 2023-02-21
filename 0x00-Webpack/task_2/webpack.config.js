@@ -23,8 +23,8 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              publicPath: 'assets/',
-              outputPath: 'public/'
+              publicPath: '/',
+              outputPath: '/'
             },
           },
           {
