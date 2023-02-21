@@ -11,7 +11,7 @@ $(function() {
     let count = 0;
     function updateCounter() {
         count++;
-        $('#count').text(`${count} clicks on button`);
+        $('#count').text(`${count} clicks on the button`);
     }
 
     const clickHandler = debounce(updateCounter, 500);
