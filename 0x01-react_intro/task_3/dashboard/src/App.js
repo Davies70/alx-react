@@ -1,6 +1,6 @@
 import logo from './holberton_logo.jpg';
-import './App.css';
 import { getFullYear, getFooterCopy } from './utils';
+import './App.css';
 
 function App() {
   return (
@@ -9,13 +9,17 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <h1>School dashboard</h1>
       </div>
-      <div className="App-body">Login to access the full dashboard</div>
-      <label for="email"></label>
-      <input type="email" id="email" name="email"></input>
-      <label for="password"></label>
-      <input type="password" id="password" name="password"></input>
-      <button>OK</button>
-      <div className="App-footer">Copyright {getFullYear()} - {getFooterCopy(true)}</div>
+      <div className='App-body'>
+				<p>Login to access the full dashboard</p>
+        <label htmlFor="email">Email:</label>
+        <input name="email" type="email" id="email"></input>
+        <label htmlFor="password">Password:</label>
+        <input name="password" type="password" id="password"></input>
+        <button>OK</button>
+			</div>
+			<div className='App-footer'>
+				<p>Copyright {getFullYear()} - {getFooterCopy(true)}</p>
+			</div>
     </div>
   );
 }
