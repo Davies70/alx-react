@@ -29,6 +29,12 @@
 	height: 45%;
 }
 
+.App-body label {
+	padding-right: 10px;
+	display: inline-block;
+}
+
+
 .App-footer {
 	font-size: var(--gen-font-size);
 	padding: var(--padding);
