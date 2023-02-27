@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "project created for Webpack",
   "main": "index.js",
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack --config config/webpack.config.js",
     "start": "webpack serve --open --mode development --config config/webpack.config.js"
   },
@@ -14,11 +19,14 @@
     "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
+    "@zarconontol/enzyme-adapter-react-18": "^0.7.3",
+    "babel-jest": "^29.4.3",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "image-webpack-loader": "^8.1.0",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
@@ -27,6 +35,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "jest": "^29.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
