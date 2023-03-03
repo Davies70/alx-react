@@ -10,3 +10,7 @@ li[data='default'] {
 li[data='urgent'] {
 	color: red;
 }
+
+button img {
+	width: 10px
+}
