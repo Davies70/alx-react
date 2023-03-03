@@ -4,9 +4,10 @@
 	color: #E0354B;
 	display: flex;
 	align-items: center;
-	padding: 1.2em;
+	padding: 0.2em;
 	border-bottom: 4px solid #E0354B;
 	font-family: Arial, Helvetica, sans-serif;
+	height: 250px;
 }
 
 .App-header img {
