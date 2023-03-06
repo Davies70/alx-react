@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import './Login.css';
 
 function Login() {
   return (
-    <React.Fragment>
+    <>
       <div className="App-body">
         <p>Login to access the full dashboard</p>
         <label htmlFor="email">Email: </label>
@@ -12,8 +12,8 @@ function Login() {
         <input type="password" id="password" name="password" />
         <button>OK</button>
       </div>
-    </React.Fragment>
-  )
+      </>
+  );
 }
 
 export default Login;
