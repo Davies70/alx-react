@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Notification from "../Notifications/Notifications";
@@ -19,7 +19,7 @@ const listNotifications = [
   { id: 3, type: "urgent", html: { __html: getLatestNotification() } },
 ];
 
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
   }
