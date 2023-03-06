@@ -1,13 +1,11 @@
-
-.App-body {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1rem;
-	padding: 2.4rem;
-	border-bottom: 4px solid #E0354B;
-	height: 45vh;
+:root {
+    --holberton-red: #e1484c;
 }
 
-.App-body label {
-	padding-right: 10px;
-	display: inline-block;
+.App-body {
+    padding: 36px 24px;
+}
+
+.App-body input {
+    margin: 0 16px 0 8px;
 }
