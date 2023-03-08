@@ -55,7 +55,7 @@ describe("Testing <App isLoggedIn={true} />", () => {
 });
 
 describe("App", () => {
-  const wrapper = shallow(<App logOut={()=>{console.log("ctrl and h are pressed")}}/>);
+  const wrapper = mount(<App logOut={()=>{console.log("ctrl and h are pressed")}}/>);
     window.alert = jest.fn();
     const inst = wrapper.instance();
     const logout = jest.spyOn(inst, 'logOut');
@@ -66,3 +66,4 @@ describe("App", () => {
     expect(logout).toBeCalled();
     alert.mockRestore();
   });
+
