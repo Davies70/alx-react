@@ -6,6 +6,8 @@ import Login from "../Login/Login";
 import CourseList from "../CourseList/CourseList";
 import PropTypes from "prop-types";
 import { getLatestNotification } from "../utils/utils";
+import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
+import BodySection from "../BodySection/BodySection";
 
 const listCourses = [
   { id: 1, name: "ES6", credit: 60 },
@@ -44,10 +46,17 @@ class App extends React.Component {
         <div className="App">
           <Header />
           {this.props.isLoggedIn ? (
-            <CourseList listCourses={listCourses} />
+            <BodySectionWithMarginBottom title="Course list">
+              <CourseList listCourses={listCourses} />
+            </BodySectionWithMarginBottom>
           ) : (
-            <Login />
+            <BodySectionWithMarginBottom title="Log in to continue">
+              <Login />
+            </BodySectionWithMarginBottom>
           )}
+          <BodySection title="News from the School">
+            <p>Starting out your frontend dreams</p>
+          </BodySection>
           <Footer />
         </div>
       </React.Fragment>
