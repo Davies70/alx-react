@@ -6,9 +6,7 @@ class BodySection extends Component {
     const { title, children } = this.props;
     return (
       <div className="bodySection">
-        <h2>
-          <p>{title}</p>
-        </h2>
+        <h2>{title}</h2>
         {children}
       </div>
     );
