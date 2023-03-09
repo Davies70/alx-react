@@ -7,8 +7,11 @@ import PropeTypes from "prop-types";
 import NotificationItemShape from "./NotificationItemShape";
 
 class Notifications extends React.Component {
-  constructor(props) {
-    super(props);
+  shouldComponentUpdate(nextProps) {
+    // Only update if the new list is longer than the previous one
+    return (
+      nextProps.listNotifications.length > this.props.listNotifications.length
+    );
   }
 
   markAsRead = (id) => {
@@ -59,7 +62,7 @@ class Notifications extends React.Component {
                     html={val.html}
                     key={val.id}
                     markAsRead={this.markAsRead}
-                    id = {val.id}
+                    id={val.id}
                   />
                 );
               })}

@@ -132,3 +132,32 @@ describe("Notifications component", () => {
     consoleSpy.mockRestore;
   });
 });
+
+describe("Notification", () => {
+  const listNotifications = [
+    { id: 1, value: "New course available", type: "default" },
+    { id: 2, value: "New resume available", type: "urgent" },
+    { id: 3, html: { __html: getLatestNotification() }, type: "urgent" },
+  ];
+  const longerListNotifications = [
+    { id: 1, value: "New course available", type: "default" },
+    { id: 2, value: "New resume available", type: "urgent" },
+    { id: 3, html: { __html: getLatestNotification() }, type: "urgent" },
+    { id: 4, value: "New resume available", type: "urgent" },
+  ];
+  it("component doesnt render when list prop is updated with the same list", () => {
+    const wrapper = shallow(
+      <Notifications listNotifications={listNotifications} />
+    );
+    wrapper.setProps({ listNotifications });
+    expect(wrapper.find("NotificationItem").length).toBe(3);
+  });
+
+  it("component renders when list prop is updated with a different list", () => {
+    const wrapper = shallow(
+      <Notifications listNotifications={listNotifications} />
+    );
+    wrapper.setProps({ longerListNotifications });
+    expect(wrapper.find("NotificationItem").length).toBe(4);
+  });
+});

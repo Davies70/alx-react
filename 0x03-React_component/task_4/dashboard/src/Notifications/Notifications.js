@@ -7,13 +7,6 @@ import PropeTypes from "prop-types";
 import NotificationItemShape from "./NotificationItemShape";
 
 class Notifications extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    // Only update if the new list is longer than the previous one
-    return (
-      nextProps.listNotifications.length > this.props.listNotifications.length
-    );
-  }
-
   markAsRead = (id) => {
     console.log(`Notification ${id} has been marked as read`);
   };
