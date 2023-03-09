@@ -27,7 +27,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|ico)$/i,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
@@ -35,7 +35,7 @@ module.exports = {
           publicPath: 'images/',
         }
       },
-      
+
       {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,

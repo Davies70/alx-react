@@ -54,16 +54,28 @@ describe("Testing <App isLoggedIn={true} />", () => {
   });
 });
 
-describe("App", () => {
-  const wrapper = mount(<App logOut={()=>{console.log("ctrl and h are pressed")}}/>);
-    window.alert = jest.fn();
-    const inst = wrapper.instance();
-    const logout = jest.spyOn(inst, 'logOut');
-    const alert = jest.spyOn(window, 'alert');
-    const event = new KeyboardEvent('keydown', {bubbles:true, ctrlKey: true, key: 'h'});
-    document.dispatchEvent(event);
-    expect(alert).toBeCalledWith("Logging you out");
-    expect(logout).toBeCalled();
-    alert.mockRestore();
+describe('App', () => {
+  jest.resetModules();
+  let originalAlert;
+  let mockAlert;
+
+  beforeEach(() => {
+    originalAlert = global.alert;
+    mockAlert = jest.fn();
+    global.alert = mockAlert;
   });
 
+  afterEach(() => {
+    global.alert = originalAlert;
+  });
+
+  it('calls logOut function when ctrl+h are pressed', () => {
+    const mockLogOut = jest.fn();
+    const wrapper = mount(<App logOut={mockLogOut} />);
+    const event = new KeyboardEvent('keydown', { keyCode: 72, ctrlKey: true });
+    document.dispatchEvent(event);
+    expect(mockLogOut).toHaveBeenCalledTimes(1);
+    expect(mockAlert).toHaveBeenCalledWith('Logging you out');
+    wrapper.unmount();
+  });
+});
