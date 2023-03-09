@@ -5,6 +5,7 @@ class NotificationItem extends PureComponent {
   constructor(props) {
     super(props);
   }
+  
 
   render() {
     return this.props.value ? (
