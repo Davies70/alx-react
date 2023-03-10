@@ -7,21 +7,19 @@ describe("Testing the <Notifications /> Component", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Notifications />);
+    wrapper = shallow(<Notifications displayDrawer={true} />);
   });
 
-  it("<Notifications /> is rendered without crashing", () => {
+  it("renders without crashing", () => {
     expect(wrapper).toBeDefined();
   });
 
-  it("<Notifications /> renders NotificationItems", () => {
-    wrapper.setProps({ displayDrawer: true });
-    expect(wrapper.find("NotificationItem")).not.toHaveLength(0);
+  it("renders NotificationItem", () => {
+    expect(wrapper.find("NotificationItem")).toHaveLength(1);
   });
 
-  it("<Notifications /> render the text 'Here is the list of notifications'", () => {
+  it("renders the text 'Here is the list of notifications'", () => {
     wrapper.setProps({
-      displayDrawer: true,
       listNotifications: [
         { id: 1, value: "New course available", type: "default" },
       ],
@@ -32,25 +30,23 @@ describe("Testing the <Notifications /> Component", () => {
   });
 
   it("verify that the first NotificationItem element renders the right html", () => {
-    wrapper.setProps({ displayDrawer: true });
     expect(wrapper.find("NotificationItem").first().html()).toEqual(
       '<li data-notification-type="default">No new notification for now</li>'
     );
   });
 
-  it("verify that Notifications renders correctly if you dont pass the listNotifications property or if you pass an empty array", () => {
-    wrapper.setProps({ displayDrawer: true });
+  it("renders correctly if you dont pass the listNotifications property", () => {
     expect(wrapper.find("NotificationItem").first().html()).toEqual(
       '<li data-notification-type="default">No new notification for now</li>'
     );
-    wrapper.setProps({ displayDrawer: true, listNotifications: [] });
+    wrapper.setProps({ listNotifications: [] });
     expect(wrapper.find("NotificationItem").first().html()).toEqual(
       '<li data-notification-type="default">No new notification for now</li>'
     );
   });
 
-  it("verify that when listNotifications is empty the message Here is the list of notifications is not displayed, but No new notification for now is", () => {
-    wrapper.setProps({ displayDrawer: true, listNotifications: [] });
+  it("verify that when listNotifications is empty the message Here is the list of notifications is not displayed", () => {
+    wrapper.setProps({ listNotifications: [] });
     expect(wrapper.find("NotificationItem").first().html()).toEqual(
       '<li data-notification-type="default">No new notification for now</li>'
     );
@@ -64,10 +60,14 @@ describe("Testing the <Notifications /> Component", () => {
   it("menu item is being displayed when displayDrawer is false", () => {
     expect(wrapper.find(".menuItem")).toHaveLength(1);
   });
+});
 
+describe('Notifications', () => {
+  const wrapper = shallow(<Notifications />);
   it("div.Notifications is not being displayed when displayDrawer is false", () => {
-    expect(wrapper.find(".Notifications")).toHaveLength(0);
+    expect(wrapper.find("div.Notifications")).toHaveLength(0);
   });
+
 });
 
 describe("Testing <Notification displayDrawer={true}/> ", () => {
@@ -103,7 +103,7 @@ describe("Testing <Notification displayDrawer={true} listNotifications={[...]}/>
     );
   });
 
-  it("verify that when you pass a list of notifications, the component renders it correctly and with the right number of NotificationItem", () => {
+  it("renders it correctly and with the right number of NotificationItem", () => {
     expect(wrapper.find("NotificationItem")).toHaveLength(3);
     expect(wrapper.find("NotificationItem").first().props().value).toEqual(
       "New course available"
@@ -134,12 +134,12 @@ describe("Notifications component", () => {
 });
 
 describe("Notification", () => {
-  const listNotifications = [
+  const testlistNotifications = [
     { id: 1, value: "New course available", type: "default" },
     { id: 2, value: "New resume available", type: "urgent" },
     { id: 3, html: { __html: getLatestNotification() }, type: "urgent" },
   ];
-  const longerListNotifications = [
+  const longerTestListNotifications = [
     { id: 1, value: "New course available", type: "default" },
     { id: 2, value: "New resume available", type: "urgent" },
     { id: 3, html: { __html: getLatestNotification() }, type: "urgent" },
@@ -147,17 +147,17 @@ describe("Notification", () => {
   ];
   it("component doesnt render when list prop is updated with the same list", () => {
     const wrapper = shallow(
-      <Notifications listNotifications={listNotifications} />
+      <Notifications listNotifications={testlistNotifications} displayDrawer />
     );
-    wrapper.setProps({ listNotifications });
-    expect(wrapper.find("NotificationItem").length).toBe(3);
+    wrapper.setProps({ listNotifications: testlistNotifications});
+    expect(wrapper.find("NotificationItem")).toHaveLength(3);
   });
 
   it("component renders when list prop is updated with a different list", () => {
     const wrapper = shallow(
-      <Notifications listNotifications={listNotifications} />
+      <Notifications listNotifications={testlistNotifications} displayDrawer />
     );
-    wrapper.setProps({ longerListNotifications });
-    expect(wrapper.find("NotificationItem").length).toBe(4);
+    wrapper.setProps({ listNotifications: longerTestListNotifications });
+    expect(wrapper.find("NotificationItem")).toHaveLength(4);
   });
 });
