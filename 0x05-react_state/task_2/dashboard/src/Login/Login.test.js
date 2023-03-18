@@ -24,6 +24,7 @@ describe('<Login />', () => {
     const wrapper = mount(<Login />);
     wrapper.find('#email').simulate('change', { target: { value: 'John' } });
     wrapper.find('#password').simulate('change', { target: { value: 'Does' } });
+    console.log(wrapper.find('#email').prop('value'));
     expect(wrapper.find("input[type='submit']").prop('disabled')).toEqual(
       false
     );
