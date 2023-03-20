@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import PropTypes from 'prop-types';
 
-function Login() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [enableSubmit, setEnableSubmit] = useState(false);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    setIsLoggedIn(true);
+    props.logIn(
+      event.target.elements.email.value,
+      event.target.elements.password.value
+    );
   };
-
-  function handleChangeEmail(event) {
+  const handleChangeEmail = (event) => {
     setEmail(event.target.value);
-  }
-
-  function handleChangePassword(event) {
+  };
+  const handleChangePassword = (event) => {
     setPassword(event.target.value);
-  }
+  };
 
   useEffect(() => {
     setEnableSubmit(email !== '' && password !== '');
@@ -28,10 +29,7 @@ function Login() {
     <React.Fragment>
       <div className={css(loginStyles.appBody)}>
         <p>Login to access the full dashboard</p>
-        <form
-          action="submit-form"
-          onSubmit={(event) => handleLoginSubmit(event)}
-        >
+        <form onSubmit={handleLoginSubmit}>
           <label htmlFor="email">Email: </label>
           <input
             type="email"
@@ -39,7 +37,7 @@ function Login() {
             name="email"
             className={loginStyles.inputs}
             value={email}
-            onChange={(event) => handleChangeEmail(event)}
+            onChange={handleChangeEmail}
           />
           <div className={css(loginStyles.display)}>
             <label htmlFor="password">Password: </label>
@@ -49,13 +47,11 @@ function Login() {
               name="password"
               className={loginStyles.inputs}
               value={password}
-              onChange={(event) => handleChangePassword(event)}
+              onChange={handleChangePassword}
             />
           </div>
           <input
             type="submit"
-            id="submit"
-            name="submit"
             className={css(loginStyles.button)}
             value="OK"
             disabled={!enableSubmit}
@@ -85,5 +81,9 @@ const loginStyles = StyleSheet.create({
     borderColor: 'yellow',
   },
 });
+
+Login.propTypes = {
+  logIn: PropTypes.func,
+};
 
 export default Login;
