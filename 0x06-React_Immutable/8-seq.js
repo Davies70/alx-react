@@ -2,7 +2,7 @@ import { Seq } from 'immutable';
 
 // const { Seq } = require('immutable');
 
-function printBestStudents(object) {
+export default function printBestStudents(object) {
   const lazySeq = Seq(object);
   const filteredgrades = lazySeq.filter((grade) => grade.score > 70);
   const transformedGrades = filteredgrades.map((grade) => {
