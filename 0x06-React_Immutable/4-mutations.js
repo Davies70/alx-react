@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+
 const object = {
   1: 'Liam',
   2: 'Noah',
@@ -8,4 +9,6 @@ const object = {
   6: 'Lucas',
 };
 export const map = Map(object);
-export const map2 = map.set([2, 4], ['Benjamin', 'Oliver']);
+export const map2 = map.withMutation(mutableMap => {
+    mutableMap.set([2, 4], ['Benjamin', 'Oliver']);
+})
