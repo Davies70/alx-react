@@ -4,6 +4,8 @@ export default function accessImmutableObject(object, array) {
   let value;
   try {
     value = Map(object).getIn(array);
-  } catch (e) {}
+  } catch (e) {
+    return;
+  }
   return value;
 }
