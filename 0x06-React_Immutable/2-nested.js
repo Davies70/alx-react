@@ -7,7 +7,6 @@ export default function accessImmutableObject(object, array) {
     return value;
   } else if (Map.isMap(value)) {
     return value;
-  } else {
-    return value === undefined ? undefined : value.toJS();
   }
+  return value === undefined ? undefined : value.toJS();
 }
