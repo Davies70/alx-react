@@ -53,9 +53,7 @@ const notificationItemstyle = StyleSheet.create({
 
 NotificationItem.defaultProps = {
   type: 'default',
-  markAsRead: () => {
-    console.log('empty func');
-  },
+  markAsRead: () => {},
   id: 0,
 };
 

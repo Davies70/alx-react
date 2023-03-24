@@ -1,6 +1,6 @@
 const notificationsData = require('../../../../notifications.json');
 
-function getAllNotificationsByUser(userId) {
+export default function getAllNotificationsByUser(userId) {
   const context = notificationsData
     .filter((notification) => {
       return notification.author.id === userId;

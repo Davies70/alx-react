@@ -139,27 +139,7 @@ describe('Testing <Notification displayDrawer={true} listNotifications={[...]}/>
   });
 });
 
-describe('Notifications component', () => {
-  let wrapper;
-  let consoleSpy;
 
-  beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log');
-  });
-
-  test('mocks up the console.log function', () => {
-    const notification = new Notifications();
-    const id = 4;
-    notification.markAsRead(id);
-    expect(consoleSpy).toHaveBeenCalledWith(
-      `Notification ${id} has been marked as read`
-    );
-  });
-
-  afterEach(() => {
-    consoleSpy.mockRestore;
-  });
-});
 
 describe('Notification', () => {
   const testlistNotifications = [
