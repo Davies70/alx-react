@@ -146,7 +146,7 @@ const listNotifications = [
   { id: 3, html: { __html: getLatestNotification() }, type: 'urgent' },
 ];
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.get('isUserLoggedIn'),
   };

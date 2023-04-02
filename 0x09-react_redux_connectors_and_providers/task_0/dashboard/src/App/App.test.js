@@ -3,10 +3,12 @@
  */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import App from './App';
+import App, { mapStateToProps } from './App';
 import { StyleSheetTestUtils } from 'aphrodite';
 import { AppContext, user, logOut } from './AppContext';
 import { getLatestNotification } from '../utils/utils';
+
+const { fromJS } = require('immutable');
 
 // suppress style injection during testing
 StyleSheetTestUtils.suppressStyleInjection();
@@ -151,5 +153,15 @@ describe('App with AppContect', () => {
     instance.logOut();
     expect(wrapper.state().user).toEqual(user);
     wrapper.unmount();
+  });
+});
+
+describe('test MapStateToProps', () => {
+  test('verifies that it returns the right object', () => {
+    let state = fromJS({
+      isUserLoggedIn: true,
+    });
+    let prop = mapStateToProps(state);
+    expect(prop).toEqual({ isLoggedIn: true });
   });
 });
