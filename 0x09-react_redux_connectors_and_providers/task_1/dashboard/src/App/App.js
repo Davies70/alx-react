@@ -80,9 +80,7 @@ class App extends React.Component {
     const value = { user, logOut };
 
     return (
-      <AppContext.Provider
-        value={value}
-      >
+      <AppContext.Provider value={value}>
         <React.Fragment>
           <Notification
             listNotifications={listNotifications}
@@ -146,6 +144,20 @@ const listNotifications = [
   { id: 3, html: { __html: getLatestNotification() }, type: 'urgent' },
 ];
 
+App.defaultProps = {
+  isLoggedIn: false,
+  displayDrawer: false,
+  displayNotificationDrawer: () => {},
+  hideNotificationDrawer: () => {},
+};
+
+App.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  displayDrawer: PropTypes.bool,
+  displayNotificationDrawer: PropTypes.func,
+  hideNotificationDrawer: PropTypes.func,
+};
+
 export const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.get('isUserLoggedIn'),
@@ -158,20 +170,6 @@ export const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   displayNotificationDrawer,
   hideNotificationDrawer,
-};
-
-App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  displayDrawer: PropTypes.bool,
-  displayNotificationDrawer: PropTypes.func,
-  hideNotificationDrawer: PropTypes.func,
-};
-
-App.defaultPropTypes = {
-  isLoggedIn: false,
-  displayDrawer: false,
-  displayNotificationDrawer: () => {},
-  hideNotificationDrawer: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
