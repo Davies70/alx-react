@@ -13,6 +13,8 @@ import { user, AppContext } from './AppContext';
 import {
   displayNotificationDrawer,
   hideNotificationDrawer,
+  loginRequest,
+  logout,
 } from '../actions/uiActionCreators';
 import PropTypes from 'prop-types';
 
@@ -170,6 +172,8 @@ export const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   displayNotificationDrawer,
   hideNotificationDrawer,
+  login: loginRequest,
+  logout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
