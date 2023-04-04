@@ -23,26 +23,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: user,
-      logOut: this.logOut,
+      // logOut: this.logOut,
       listNotifications,
     };
   }
-
-  logIn = (email, password) => {
-    this.setState({
-      user: {
-        email,
-        password,
-        isLoggedIn: true,
-      },
-    });
-  };
-
-  logOut = () => {
-    this.setState({
-      user: user,
-    });
-  };
 
   handleKeyDown = (event) => {
     if (event.ctrlKey && event.key === 'h') {
@@ -70,16 +54,18 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, logOut, listNotifications } = this.state;
+    const { user, listNotifications } = this.state;
 
     const {
       isLoggedIn,
       displayDrawer,
       displayNotificationDrawer,
       hideNotificationDrawer,
+      login,
+      logout,
     } = this.props;
 
-    const value = { user, logOut };
+    const value = { user, logout };
 
     return (
       <AppContext.Provider value={value}>
@@ -99,7 +85,7 @@ class App extends React.Component {
               </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Log in to continue">
-                <Login logIn={this.logIn} />
+                <Login logIn={login} />
               </BodySectionWithMarginBottom>
             )}
             <BodySection title="News from the School">
@@ -151,6 +137,8 @@ App.defaultProps = {
   displayDrawer: false,
   displayNotificationDrawer: () => {},
   hideNotificationDrawer: () => {},
+  login: () => {},
+  logout: () => {},
 };
 
 App.propTypes = {
@@ -158,6 +146,8 @@ App.propTypes = {
   displayDrawer: PropTypes.bool,
   displayNotificationDrawer: PropTypes.func,
   hideNotificationDrawer: PropTypes.func,
+  login: PropTypes.func,
+  logout: PropTypes.func,
 };
 
 export const mapStateToProps = (state) => {
