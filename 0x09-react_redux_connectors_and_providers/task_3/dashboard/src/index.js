@@ -7,10 +7,12 @@ import App from './App/App';
 import { uiReducer, initialState } from './reducers/uiReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
   uiReducer,
   initialState,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 ReactDOM.render(
