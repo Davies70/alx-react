@@ -1,44 +1,28 @@
-import React from 'react';
-import { shallow, mount } from 'enzyme';
-import Footer from './Footer';
-import { StyleSheetTestUtils } from 'aphrodite';
-import { AppContext, user, logOut } from '../App/AppContext';
+import { shallow, mount } from "enzyme";
+import React from "react";
+import { Footer } from "./Footer";
 
-// suppress style injection during testing
-StyleSheetTestUtils.suppressStyleInjection();
-
-describe('<Footer />', () => {
-  it('renders without crashing', () => {
-    shallow(<Footer />);
-  });
-  it('renders at least the text Copyright', () => {
+describe("<Footer />", () => {
+  it("Footer renders without crashing", () => {
     const wrapper = shallow(<Footer />);
-    expect(wrapper.text()).toContain('Copyright');
+    expect(wrapper.exists()).toEqual(true);
   });
-  it('link is not displayed when user is logged out', () => {
-    const wrapper = mount(
-      <AppContext.Provider value={{ user, logOut }}>
-        <Footer />
-      </AppContext.Provider>
-    );
-    expect(wrapper.find('a').length).toBe(0);
-    wrapper.unmount();
+  it("Verify that the components at the very least render the text “Copyright”", () => {
+    const wrapper = shallow(<Footer />);
+    expect(wrapper.find("div.footer p")).toHaveLength(1);
+    expect(wrapper.find("div.footer p").text()).toContain("Copyright");
   });
-  it('link is displayed when user is logged in', () => {
-    const newUser = {
-      user: {
-        email: 'email@gmail.com',
-        password: 'password',
-        isLoggedIn: true,
-      },
-      logOut: jest.fn(),
-    };
-    const wrapper = mount(
-      <AppContext.Provider value={newUser}>
-        <Footer />
-      </AppContext.Provider>
+
+  it("verify that the link is not displayed when the user is logged out within the context", () => {
+    const wrapper = shallow(<Footer user={null} />);
+    expect(wrapper.find("div.footer a")).toHaveLength(0);
+  });
+
+  it("verify that the link is displayed when the user is logged in within the context", () => {
+    const wrapper = shallow(
+      <Footer user={{ email: "larry@hd.com", password: "123456" }} />
     );
-    expect(wrapper.find('a').length).toBe(1);
-    wrapper.unmount();
+    expect(wrapper.find("div.footer a")).toHaveLength(1);
+    expect(wrapper.find("div.footer a").text()).toEqual("Contact us");
   });
 });

@@ -1,19 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getFullYear, getFooterCopy } from '../utils/utils';
 import PropTypes from 'prop-types';
-import { getFooterCopy, getFullYear } from '../utils/utils';
 
 export function Footer({ user }) {
   return (
-    <div className="App-footer">
+    <div className="footer">
       <p>
-        Copyright {getFullYear()} - {getFooterCopy()}
+        Copyright {getFullYear()} - {getFooterCopy(true)}
       </p>
-      {user.isLoggedIn && (
-        <p>
-          <a href="#">Contact us</a>
-        </p>
-      )}
+      {user && <a href="#">Contact us</a>}
     </div>
   );
 }
@@ -31,4 +27,5 @@ const mapStateToProps = (state) => {
     user: state.get('user'),
   };
 };
-export default connect(mapStateToProps)(Footer);
+
+export default connect(mapStateToProps, null)(Footer);
