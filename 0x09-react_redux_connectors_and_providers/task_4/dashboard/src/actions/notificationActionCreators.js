@@ -25,10 +25,10 @@ export function fetchNotificationSuccess(listOfNotifications) {
   };
 }
 
-export function setLoadingState(loadingState) {
+export function setLoadingState(loading) {
   return {
     type: SET_LOADING_STATE,
-    loadingState,
+    loading,
   };
 }
 

@@ -2,25 +2,25 @@ import {
   FETCH_NOTIFICATIONS_SUCCESS,
   MARK_AS_READ,
   SET_TYPE_FILTER,
+  SET_LOADING_STATE,
 } from '../actions/notificationActionTypes';
 import { notificationsNormalizer } from '../schema/notifications';
 import { fromJS } from 'immutable';
 
 export const initialState = fromJS({
-  notifications: [],
+  notifications: {},
   filter: 'DEFAULT',
+  loading: false,
 });
 
 export function notificationReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_NOTIFICATIONS_SUCCESS: {
-      const updatedNotification = action.data.map((notification) => ({
-        ...notification,
-        isRead: false,
-      }));
-
-      const normalizedData = notificationsNormalizer(updatedNotification);
-      return state.merge(normalizedData);
+      const normalizedData = notificationsNormalizer(action.data);
+      Object.keys(normalizedData.notifications).map((key) => {
+        normalizedData.notifications[key].isRead = false;
+      });
+      return state.mergeDeep(normalizedData);
     }
     case MARK_AS_READ: {
       return state.setIn(
@@ -30,6 +30,9 @@ export function notificationReducer(state = initialState, action) {
     }
     case SET_TYPE_FILTER: {
       return state.set('filter', action.filter);
+    }
+    case SET_LOADING_STATE: {
+      return state.set('loading', action.loading);
     }
     default: {
       return state;
