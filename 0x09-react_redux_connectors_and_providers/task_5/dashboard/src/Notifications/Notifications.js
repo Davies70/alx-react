@@ -1,27 +1,38 @@
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import PropTypes from 'prop-types';
-import NotificationItemShape from './NotificationItemShape';
 import { StyleSheet, css } from 'aphrodite';
+import { fetchNotifications } from '../actions/notificationActionCreators';
 
 class Notifications extends React.PureComponent {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.props.fetchNotifications();
+  }
 
   render() {
+    const {
+      displayDrawer,
+      listNotifications,
+      handleDisplayDrawer,
+      handleHideDrawer,
+      markNotificationAsRead,
+    } = this.props;
     return (
       <>
-        {!this.props.displayDrawer ? (
+        {!displayDrawer ? (
           <div
             className={css(notificationStyles.menuItem)}
-            onClick={() => this.props.handleDisplayDrawer()}
+            onClick={() => handleDisplayDrawer()}
           >
             Your notifications
           </div>
         ) : null}
-        {this.props.displayDrawer ? (
+        {displayDrawer ? (
           <div className={css(notificationStyles.notifications)}>
             <button
               style={{
@@ -40,22 +51,22 @@ class Notifications extends React.PureComponent {
               className={css(notificationStyles.button)}
               onClick={() => {
                 console.log('Close button has been clicked');
-                this.props.handleHideDrawer();
+                handleHideDrawer();
               }}
             >
               <img src={closeIcon} alt="close icon" width="15px" />
             </button>
-            {this.props.listNotifications.length != 0 ? (
+            {listNotifications.length != 0 ? (
               <p>Here is the list of notifications</p>
             ) : null}
             <ul>
-              {this.props.listNotifications.length == 0 ? (
+              {listNotifications.length == 0 ? (
                 <NotificationItem
                   type="default"
                   value="No new notification for now"
                 />
               ) : null}
-              {this.props.listNotifications.map((val) => {
+              {listNotifications.map((val) => {
                 return (
                   <NotificationItem
                     type={val.type}
@@ -63,7 +74,7 @@ class Notifications extends React.PureComponent {
                     html={val.html}
                     key={val.id}
                     id={val.id}
-                    markAsRead={this.props.markNotificationAsRead}
+                    markAsRead={markNotificationAsRead}
                   />
                 );
               })}
@@ -146,18 +157,30 @@ const notificationStyles = StyleSheet.create({
 
 Notifications.defaultProps = {
   displayDrawer: false,
-  listNotifications: [],
+  listNotifications: null,
   handleDisplayDrawer: () => {},
   handleHideDrawer: () => {},
   markNotificationAsRead: () => {},
+  fetchNotifications: () => {},
 };
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(NotificationItemShape),
+  listNotifications: PropTypes.object,
   handleDisplayDrawer: PropTypes.func,
   handleHideDrawer: PropTypes.func,
   markNotificationAsRead: PropTypes.func,
+  fetchNotifications: PropTypes.func,
 };
 
-export default Notifications;
+const mapStateToProps = (state) => {
+  return {
+    listNotifications: state.notifications.get('messages'),
+  };
+};
+
+const mapDispatchToProps = {
+  fetchNotifications,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

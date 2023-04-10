@@ -36,10 +36,8 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.handleKeyCombination = this.handleKeyCombination.bind(this);
-    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
     this.state = {
       user,
-      listNotifications: listNotificationsInitialState,
     };
   }
 
@@ -48,14 +46,6 @@ export class App extends Component {
       alert('Logging you out');
       this.props.logout();
     }
-  }
-
-  markNotificationAsRead(id) {
-    this.setState({
-      listNotifications: this.state.listNotifications.filter((notification) => {
-        return notification.id !== id;
-      }),
-    });
   }
 
   componentDidMount() {

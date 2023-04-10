@@ -25,10 +25,10 @@ export function fetchNotificationSuccess(listOfNotifications) {
   };
 }
 
-export function setLoadingState(loadingState) {
+export function setLoadingState(loading) {
   return {
     type: SET_LOADING_STATE,
-    loadingState,
+    loading,
   };
 }
 
@@ -42,7 +42,7 @@ export function setNotifications(data) {
 export function fetchNotifications() {
   return (dispatch) => {
     dispatch(setLoadingState(true));
-    return fetch(`/dist/notifications.json`)
+    return fetch('./notifications.json')
       .then((response) => response.json())
       .then((data) => dispatch(setNotifications(data)))
       .catch((error) => {})
