@@ -1,100 +1,173 @@
-import { courseReducer } from './courseReducer';
+import { Map, fromJS } from 'immutable';
+import courseReducer, { initialCourseState } from './courseReducer';
 import {
-  selectCourse,
-  unselectCourse,
-  fetchCourseSuccess,
-} from '../actions/courseActionCreators';
-import { coursesNormalizer } from '../schema/courses';
-const { Map } = require('immutable');
+  FETCH_COURSE_SUCCESS,
+  SELECT_COURSE,
+  UNSELECT_COURSE,
+} from '../actions/courseActionTypes';
 
-const initialState = Map([]);
-const courseList = Map(
-  coursesNormalizer([
-    {
-      id: 1,
-      name: 'ES6',
-      isSelected: false,
-      credit: 60,
-    },
-    {
-      id: 2,
-      name: 'Webpack',
-      isSelected: false,
-      credit: 20,
-    },
-    {
-      id: 3,
-      name: 'React',
-      isSelected: false,
-      credit: 40,
-    },
-  ])
-);
+import coursesNormalizer from '../schema/courses';
 
-const selectedCourseList = Map(
-  coursesNormalizer([
-    {
-      id: 1,
-      name: 'ES6',
-      isSelected: false,
-      credit: 60,
-    },
-    {
-      id: 2,
-      name: 'Webpack',
-      isSelected: true,
-      credit: 20,
-    },
-    {
-      id: 3,
-      name: 'React',
-      isSelected: false,
-      credit: 40,
-    },
-  ])
-);
+describe('courseReducer tests', function () {
+  it('Tests that the default state returns an empty arr', function () {
+    const state = courseReducer(undefined, {});
 
-const courses = [
-  {
-    id: 1,
-    name: 'ES6',
-    isSelected: false,
-    credit: 60,
-  },
-  {
-    id: 2,
-    name: 'Webpack',
-    isSelected: false,
-    credit: 20,
-  },
-  {
-    id: 3,
-    name: 'React',
-    isSelected: false,
-    credit: 40,
-  },
-];
-
-describe('courseReducer', () => {
-  test('default state returns empty array', () => {
-    expect(courseReducer(initialState, {})).toEqual(initialState);
+    expect(state).toEqual(Map(initialCourseState));
   });
-  test('verifies FETCH_COURSE_SUCCESS returns the data passed', () => {
-    const action = fetchCourseSuccess(courses);
-    const expectedState = courseList;
-    const receivedState = courseReducer(initialState, action);
-    expect(receivedState).toEqual(expectedState);
+  it('Tests that FETCH_COURSE_SUCCESS returns the data passed', function () {
+    const action = {
+      type: FETCH_COURSE_SUCCESS,
+      data: [
+        {
+          id: 1,
+          name: 'ES6',
+          credit: 60,
+        },
+        {
+          id: 2,
+          name: 'Webpack',
+          credit: 20,
+        },
+        {
+          id: 3,
+          name: 'React',
+          credit: 40,
+        },
+      ],
+    };
+
+    const expectedData = [
+      {
+        id: 1,
+        name: 'ES6',
+        isSelected: false,
+        credit: 60,
+      },
+      {
+        id: 2,
+        name: 'Webpack',
+        isSelected: false,
+        credit: 20,
+      },
+      {
+        id: 3,
+        name: 'React',
+        isSelected: false,
+        credit: 40,
+      },
+    ];
+
+    const state = courseReducer(undefined, action);
+    expect(state.toJS()).toEqual(coursesNormalizer(expectedData));
   });
-  test('verifies SELECT_COURSE returns data with the right item updated', () => {
-    const action = selectCourse(2);
-    const expectedState = selectedCourseList;
-    const receivedState = courseReducer(courseList, action);
-    expect(receivedState).toEqual(expectedState);
+  it('Tests that SELECT_COURSE returns the data with the right item updated', function () {
+    const initialState = [
+      {
+        id: 1,
+        name: 'ES6',
+        isSelected: false,
+        credit: 60,
+      },
+      {
+        id: 2,
+        name: 'Webpack',
+        isSelected: false,
+        credit: 20,
+      },
+      {
+        id: 3,
+        name: 'React',
+        isSelected: false,
+        credit: 40,
+      },
+    ];
+
+    const action = {
+      type: SELECT_COURSE,
+      index: 2,
+    };
+
+    const expectedData = [
+      {
+        id: 1,
+        name: 'ES6',
+        isSelected: false,
+        credit: 60,
+      },
+      {
+        id: 2,
+        name: 'Webpack',
+        isSelected: true,
+        credit: 20,
+      },
+      {
+        id: 3,
+        name: 'React',
+        isSelected: false,
+        credit: 40,
+      },
+    ];
+
+    const state = courseReducer(
+      fromJS(coursesNormalizer(initialState)),
+      action
+    );
+
+    expect(state.toJS()).toEqual(coursesNormalizer(expectedData));
   });
-  test('verifies that UNSELECT_COURSE returns data with the right item updated', () => {
-    const action = unselectCourse(2);
-    const expectedState = courseList;
-    const receivedState = courseReducer(courseList, action);
-    expect(receivedState).toEqual(expectedState);
+  it('Tests that UNSELECT_COURSE returns the data with the right item updated', function () {
+    const initialState = [
+      {
+        id: 1,
+        name: 'ES6',
+        isSelected: false,
+        credit: 60,
+      },
+      {
+        id: 2,
+        name: 'Webpack',
+        isSelected: true,
+        credit: 20,
+      },
+      {
+        id: 3,
+        name: 'React',
+        isSelected: false,
+        credit: 40,
+      },
+    ];
+
+    const action = {
+      type: UNSELECT_COURSE,
+      index: 2,
+    };
+
+    const expectedData = [
+      {
+        id: 1,
+        name: 'ES6',
+        isSelected: false,
+        credit: 60,
+      },
+      {
+        id: 2,
+        name: 'Webpack',
+        isSelected: false,
+        credit: 20,
+      },
+      {
+        id: 3,
+        name: 'React',
+        isSelected: false,
+        credit: 40,
+      },
+    ];
+
+    const state = courseReducer(
+      fromJS(coursesNormalizer(initialState)),
+      action
+    );
+
+    expect(state.toJS()).toEqual(coursesNormalizer(expectedData));
   });
 });

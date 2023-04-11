@@ -1,20 +1,13 @@
-const { Map } = require('immutable');
-import { notificationsNormalizer } from '../schema/notifications';
-
-export function filterTypeSelected(state) {
+export const filterTypeSelected = (state) => {
   return state.get('filter');
-}
-export function getNotifications(state) {
-  return Map(state.getIn(['entities', 'notifications']));
-}
-
-export function getUnreadNotifications(state) {
-  const notifications = state.getIn(['entities', 'notifications']);
-  const unreadNotifications = [];
-  for (let id in notifications) {
-    if (notifications[id].isRead === false)
-      unreadNotifications.push(notifications[id]);
-  }
-  const normalizedNotifications = notificationsNormalizer(unreadNotifications);
-  return Map(normalizedNotifications.entities.notifications);
-}
+};
+export const getNotifications = (state) => {
+  return state.get('notifications');
+};
+export const getUnreadNotifications = (state) => {
+  const notifications = state.get('notifications');
+  const filtered = notifications.filter(
+    (value, key) => value.get('isRead') === true
+  );
+  return filtered;
+};

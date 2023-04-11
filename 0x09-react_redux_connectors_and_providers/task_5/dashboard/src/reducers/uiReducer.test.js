@@ -1,26 +1,34 @@
-import { uiReducer, initialState } from './uiReducer';
-import { DISPLAY_NOTIFICATION_DRAWER, LOGIN } from '../actions/uiActionTypes';
-import { SELECT_COURSE } from '../actions/courseActionTypes';
+import uiReducer, { initialUiState } from './uiReducer';
+import { LOGIN, DISPLAY_NOTIFICATION_DRAWER } from '../actions/uiActionTypes';
 
-const user = { email: 'password@password', password: 'password' };
+const USER = { email: 'larry@hudson.com', password: '123456' };
 
-describe('uiReducer', () => {
-  test('verifies state returned equals initial state when no action is passed', () => {
+describe('uiReducer tests', function () {
+  it('verifies the state returned by the uiReducer function equals the initial state when no action is passed', function () {
     const state = uiReducer(undefined, {});
-    expect(state).toEqual(initialState);
+
+    expect(state.toJS()).toEqual(initialUiState);
   });
-  test('verifies state returned equals initial state when action SELECT_COURSE is passed', () => {
-    const state = uiReducer(initialState, { type: SELECT_COURSE });
-    expect(state).toEqual(initialState);
+  it('verifies the state returned by the uiReducer function equals the initial state when the action SELECT_COURSE is passed', function () {
+    const state = uiReducer(undefined, { type: 'SELECT_COURSE' });
+
+    expect(state.toJS()).toEqual(initialUiState);
   });
-  test('state returned with action DISPLAY_NOTIFICATION_DRAWER alters its isNotificationDrawerVisible property', () => {
-    const state = uiReducer(initialState, {
-      type: DISPLAY_NOTIFICATION_DRAWER,
+  it('verifies the state returned by the uiReducer function, when the action DISPLAY_NOTIFICATION_DRAWER is passed, changes correctly the isNotificationDrawerVisible property', function () {
+    const state = uiReducer(undefined, { type: DISPLAY_NOTIFICATION_DRAWER });
+
+    expect(state.toJS()).toEqual({
+      ...initialUiState,
+      isNotificationDrawerVisible: true,
     });
-    expect(state.get('isNotificationDrawerVisible')).toBe(true);
   });
-  test('verifies LOGIN action sets the user in state', () => {
-    const state = uiReducer(initialState, { type: LOGIN, user: user });
-    expect(state.get('user')).toEqual(user);
+
+  it('verifies the state returned by the uiReducer function, when the action LOGIN is passed, changes correctly the user property', function () {
+    const state = uiReducer(undefined, { type: LOGIN, user: USER });
+
+    expect(state.toJS()).toEqual({
+      ...initialUiState,
+      user: USER,
+    });
   });
 });
