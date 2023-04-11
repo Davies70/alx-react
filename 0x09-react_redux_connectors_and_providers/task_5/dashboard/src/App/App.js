@@ -71,11 +71,9 @@ export class App extends Component {
     return (
       <>
         <Notifications
-          listNotifications={listNotifications}
           displayDrawer={displayDrawer}
           handleDisplayDrawer={displayNotificationDrawer}
           handleHideDrawer={hideNotificationDrawer}
-          markNotificationAsRead={this.markNotificationAsRead}
         />
         <div className={css(styles.container)}>
           <div className={css(styles.app)}>
