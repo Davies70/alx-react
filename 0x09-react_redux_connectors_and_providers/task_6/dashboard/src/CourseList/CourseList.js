@@ -1,58 +1,113 @@
-import React from "react";
-import PropType from "prop-types";
-import CourseShape from "./CourseShape";
-import CourseListRow from "./CourseListRow";
-import { css, StyleSheet } from "aphrodite";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  fetchCourses,
+  selectCourse,
+  unSelectCourse,
+} from '../actions/courseActionCreators';
+import { getListCourses } from '../selectors/courseSelector';
+import CourseListRow from './CourseListRow';
+import PropTypes from 'prop-types';
+import { StyleSheet, css } from 'aphrodite';
 
-function CourseList({ listCourses }) {
-  return (
-    <table id="CourseList" className={css(courseListStyles.table)}>
-      <thead>
-        <CourseListRow isHeader textFirstCell="Available courses" />
-        <CourseListRow
-          isHeader
-          textFirstCell="Course name"
-          textSecondCell="Credit"
-        />
-      </thead>
-      <tbody>
-        {listCourses.length == 0 ? (
+export class CourseList extends Component {
+  constructor(props) {
+    super(props);
+    this.onChangeRow = this.onChangeRow.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.fetchCourses();
+  }
+
+  onChangeRow(id, checked) {
+    if (checked) {
+      this.props.selectCourse(id);
+    } else {
+      this.props.unSelectCourse(id);
+    }
+  }
+
+  render() {
+    const { listCourses } = this.props;
+    // const listCourses = null;
+
+    return (
+      <table id="CourseList" className={css(styles.list)}>
+        <thead>
+          <CourseListRow textFirstCell="Available courses" isHeader={true} />
           <CourseListRow
-            isHeader={false}
-            textFirstCell="No course available yet"
+            textFirstCell="Course name"
+            textSecondCell="Credit"
+            isHeader={true}
           />
-        ) : null}
-        {listCourses.map((val) => {
-          return (
+        </thead>
+        <tbody>
+          {(!listCourses || listCourses.length === 0) && (
             <CourseListRow
+              textFirstCell="No course available yet"
               isHeader={false}
-              textFirstCell={val.name}
-              textSecondCell={val.credit}
-              key={val.id}
             />
-          );
-        })}
-      </tbody>
-    </table>
-  );
+          )}
+
+          {listCourses &&
+            listCourses.map((course) => (
+              <CourseListRow
+                key={course.id}
+                id={course.id}
+                textFirstCell={course.name}
+                textSecondCell={course.credit}
+                isHeader={false}
+                isChecked={course.isSelected}
+                onChangeRow={this.onChangeRow}
+              />
+            ))}
+        </tbody>
+      </table>
+    );
+  }
 }
 
-const courseListStyles = StyleSheet.create({
-  table: {
-    display: "table",
-    border: "1px solid",
-    borderCollapse: "collapse",
-    margin: "2rem auto 0 auto",
-    width: "90%",
+CourseList.defaultProps = {
+  listCourses: null,
+  fetchCourses: () => {},
+  selectCourse: () => {},
+  unSelectCourse: () => {},
+};
+
+CourseList.propTypes = {
+  listCourses: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  fetchCourses: PropTypes.func,
+  selectCourse: PropTypes.func,
+  unSelectCourse: PropTypes.func,
+};
+
+const cssVars = {
+  borderTableColor: 'rgb(170, 170, 170);',
+};
+
+const styles = StyleSheet.create({
+  list: {
+    border: `1px solid ${cssVars.borderTableColor}`,
+    borderCollapse: 'collapse',
+    width: '95%',
+    margin: '40px auto 0 auto',
   },
 });
 
-CourseList.defaultProps = {
-  listCourses: [],
+export const mapStateToProps = (state) => {
+  const coursesList = getListCourses(state);
+  return {
+    listCourses: coursesList,
+  };
 };
 
-CourseList.PropType = {
-  listCourses: PropType.arrayOf(CourseShape),
+const mapDispatchToProps = {
+  fetchCourses,
+  selectCourse,
+  unSelectCourse,
 };
 
-export default CourseList;
+// export default CourseList;
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList);
