@@ -1,11 +1,11 @@
 import { shallow, mount } from 'enzyme';
 import React from 'react';
-import Notifications from './Notifications';
+import { Notifications } from './Notifications';
 import { getLatestNotification } from '../utils/utils';
 import { StyleSheetTestUtils } from 'aphrodite';
 import notificationsNormalizer from '../schema/notifications';
 import { Map, fromJS } from 'immutable';
-import { getUnreadNotificationsByType } from '../selectors/notificationSelector';
+import { getUnreadNotifications } from '../selectors/notificationSelector';
 
 const NOTIFICATIONS = [
   {
@@ -141,7 +141,7 @@ describe('<Notifications />', () => {
     });
 
     it('Notifications renders Notification Items and items have correct html', () => {
-      const messages = getUnreadNotificationsByType(listNotifications);
+      const messages = getUnreadNotifications(listNotifications);
 
       const wrapper = mount(
         <Notifications displayDrawer listNotifications={messages} />
@@ -318,23 +318,15 @@ describe('<Notifications />', () => {
       jest.restoreAllMocks();
     });
 
-    it('verify that clicking on the menu item calls handleDisplayDrawer', () => {
-      const setNotificationFilter = jest.fn();
+    it('verify that the function fetchNotifications is called when the component is mounted', () => {
+      const fetchNotifications = jest.fn();
+      const handleHideDrawer = jest.fn();
 
       const wrapper = shallow(
-        <Notifications
-          setNotificationFilter={setNotificationFilter}
-          displayDrawer={true}
-        />
+        <Notifications fetchNotifications={fetchNotifications} />
       );
 
-      wrapper.find('#buttonFilterUrgent').simulate('click');
-
-      expect(setNotificationFilter).toHaveBeenNthCalledWith(1, 'URGENT');
-
-      wrapper.find('#buttonFilterDefault').simulate('click');
-
-      expect(setNotificationFilter).toHaveBeenNthCalledWith(2, 'DEFAULT');
+      expect(fetchNotifications).toHaveBeenCalled();
 
       jest.restoreAllMocks();
     });
